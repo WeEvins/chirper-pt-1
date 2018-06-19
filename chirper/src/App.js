@@ -1,20 +1,51 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Chirp from './chirpCard';
-import chirpForm from './chirpForm';
+import ChirpPost from './components/chirpCard';
+import ChirpForm from './components/chirpForm';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      posts: [
+        {
+          text: 'default card 1'
+        },
+        {
+          text: 'default card 2'
+        },
+        {
+          text: 'default card 3'
+        }
+      ],
+    }
+  }
+
+
+  
+  addChirp = (newChirpValue) => {
+    this.setState({
+      posts: [newChirpValue, ...this.state.posts]
+    });
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <chirpCard addChirp={this.addChirp} />
+        <div className="chirpContainer">
+          <div className="row">
+            {
+              this.state.posts.map((formValue, index) => {
+                return (
+                  <ChirpPost key={index} formValue={formValue.text} />
+                )
+              })
+            }
+          </div>
+        </div>
       </div>
     );
   }
